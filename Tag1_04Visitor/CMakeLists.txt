@@ -10,4 +10,6 @@ add_executable(Tag1_04Visitor main.cpp
         firma/Firma.h
         mitarbeiter/visitor/MitarbeiterVisitor.h
         mitarbeiter/visitor/AbstractMitarbeiterVisitor.h
-        mitarbeiter/visitor/PrintVisitor.h)
+        mitarbeiter/visitor/PrintVisitor.h
+        mitarbeiter/visitor/ResetArbeitszeitVisitor.h
+        mitarbeiter/visitor/StatistikVisitor.h)

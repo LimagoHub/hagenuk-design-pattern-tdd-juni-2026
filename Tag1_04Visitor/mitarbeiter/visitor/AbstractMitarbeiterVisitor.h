@@ -8,6 +8,14 @@ namespace mitarbeiter::visitor {
 
     class AbstractMitarbeiterVisitor: public MitarbeiterVisitor {
     public:
+        void init() override{
+            // Ok
+        }
+
+        void dispose() override {
+            // ok
+        }
+
         void visit(LohnEmpfaenger &lohn_empfaenger) override {
             // OK
         }

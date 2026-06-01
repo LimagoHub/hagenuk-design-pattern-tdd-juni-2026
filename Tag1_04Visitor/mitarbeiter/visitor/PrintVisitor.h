@@ -4,12 +4,14 @@
 
 #pragma once
 #include <iostream>
+
+#include "AbstractMitarbeiterVisitor.h"
 #include "MitarbeiterVisitor.h"
 #include "../LohnEmpfaenger.h"
 #include "../GehaltsEmpfaenger.h"
 namespace mitarbeiter::visitor {
 
-    class PrintVisitor: public MitarbeiterVisitor {
+    class PrintVisitor: public AbstractMitarbeiterVisitor {
     public:
         void visit(LohnEmpfaenger &lohn_empfaenger) override {
             std::cout << lohn_empfaenger << "\n";
