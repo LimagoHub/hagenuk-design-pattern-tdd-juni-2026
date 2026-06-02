@@ -7,4 +7,5 @@ add_executable(Tag2_01Observer main.cpp
         tiere/Tier.h
         tiere/Schwein.h
         propertychanged/PropertyChangedEvent.h
+        propertychanged/Observable.h
 )

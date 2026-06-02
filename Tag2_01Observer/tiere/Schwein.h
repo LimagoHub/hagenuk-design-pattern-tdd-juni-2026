@@ -8,17 +8,25 @@
 #include <string>
 
 #include "Tier.h"
+#include "../propertychanged/PropertyChangedEvent.h"
 
 
 class Schwein : public Tier{
     inline static const unsigned MAX_WEIGHT{20};
     std::vector<std::function<void(Schwein *)>> listeners;
+    std::vector<std::function<void(PropertyChangedEvent &event)>> propertyChangedListeners;
 
     std::string name;
     int gewicht;
     void firePigTooFatEvent() {
         for (const auto &listener: listeners) {
             listener(this);
+        }
+    }
+
+    void firePropertyChangedEvent(PropertyChangedEvent &event) {
+        for (const auto &listener: propertyChangedListeners) {
+            listener(event);
         }
     }
 
@@ -32,6 +40,10 @@ public:
         listeners.emplace_back(listener);
     }
 
+    void addpropertyChangedListeners(const std::function<void(PropertyChangedEvent&)> &listener) {
+        propertyChangedListeners.emplace_back(listener);
+    }
+
 
     explicit Schwein(const std::string &name)
         : name(name), gewicht(10) {
@@ -42,7 +54,11 @@ public:
     }
 
     void set_name(const std::string &name) {
+        if (name == this->name) return;
+        PropertyChangedEvent event{this, "name", this->name, name};
         this->name = name;
+        firePropertyChangedEvent(event);
+
     }
 
     [[nodiscard]] int get_gewicht() const {

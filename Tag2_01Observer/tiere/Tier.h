@@ -3,7 +3,8 @@
 //
 
 #pragma once
+#include "../propertychanged/Observable.h"
 
 
-class Tier {
+class Tier : public Observable{
 };
