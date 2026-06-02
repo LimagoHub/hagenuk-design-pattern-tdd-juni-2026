@@ -9,6 +9,11 @@ class Calculator {
     Calculator() = default;
     double memory{0};
     // Copy Move etc delete
+
+    // Will ich nicht
+    void set_memory(double memory) {
+        this->memory = memory;
+    }
 public:
     Calculator(const Calculator&) = delete;
     static Calculator& getInstance() {
@@ -20,10 +25,7 @@ public:
         return memory;
     }
 
-    // Will ich nicht
-    void set_memory(double memory) {
-        this->memory = memory;
-    }
+
 
     void add(double value) {
         memory += value;
