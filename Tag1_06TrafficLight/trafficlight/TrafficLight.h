@@ -7,14 +7,13 @@
 #include <string>
 #include <memory>
 
-#include "state/AbstractTrafficLightState.h"
 
 
 namespace trafficlight::state {
     class GreenState;
     class RedState;
-
-
+    class OffState;
+    class AbstractTrafficLightColorState;
     class TrafficLightState;
 
 }
@@ -24,7 +23,7 @@ namespace trafficlight {
     private:
         const TRAFFIC_LIGHT_STATE red;
         const TRAFFIC_LIGHT_STATE green;
-
+        const TRAFFIC_LIGHT_STATE off;
 
         TRAFFIC_LIGHT_STATE current;
     public:
@@ -32,14 +31,15 @@ namespace trafficlight {
 
         std::string getColor();
         void nextColor();
+        void switchOn();
+        void switchOff();
 
 
 
-        friend class trafficlight::state::TrafficLightState;
-        friend class trafficlight::state::AbstractTrafficLightState;
         friend class trafficlight::state::RedState;
         friend class trafficlight::state::GreenState;
-
+        friend class trafficlight::state::OffState;
+        friend class trafficlight::state::AbstractTrafficLightColorState;
 
 
     };

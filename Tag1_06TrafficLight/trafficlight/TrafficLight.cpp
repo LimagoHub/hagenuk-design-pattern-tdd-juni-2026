@@ -5,13 +5,14 @@
 #include "TrafficLight.h"
 #include "state/TrafficLightState.h"
 #include "state/RedState.h"
+#include "state/OffState.h"
 #include "state/GreenState.h"
 
 trafficlight::TrafficLight::TrafficLight():
         red(std::make_shared<trafficlight::state::RedState>(this)) ,
         green(std::make_shared<trafficlight::state::GreenState>(this)),
-
-        current(red)
+        off(std::make_shared<trafficlight::state::OffState>(this)),
+        current(off)
 {}
 
 
@@ -24,3 +25,10 @@ void trafficlight::TrafficLight::nextColor() {
 }
 
 
+void trafficlight::TrafficLight::switchOff() {
+    current->switchOff();
+}
+
+void trafficlight::TrafficLight::switchOn() {
+    current->switchOn();
+}

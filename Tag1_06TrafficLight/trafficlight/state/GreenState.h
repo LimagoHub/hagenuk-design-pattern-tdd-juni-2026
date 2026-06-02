@@ -4,12 +4,12 @@
 
 #pragma once
 #include <iostream>
-#include "AbstractTrafficLightState.h"
+#include "AbstractTrafficLightColorState.h"
 namespace trafficlight::state {
-    class GreenState : public AbstractTrafficLightState{
+    class GreenState : public AbstractTrafficLightColorState{
 
     public:
-        using AbstractTrafficLightState::AbstractTrafficLightState;
+        using AbstractTrafficLightColorState::AbstractTrafficLightColorState;
 
         std::string getColor() {
             return "GREEN";

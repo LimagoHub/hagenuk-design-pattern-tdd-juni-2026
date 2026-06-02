@@ -12,7 +12,8 @@ namespace trafficlight::state {
 
             virtual std::string getColor() = 0;    // Business
             virtual void nextColor() = 0; // Statuswechsel
-
+            virtual void switchOff() = 0;
+            virtual void switchOn() = 0;
 
     };
 

@@ -4,11 +4,9 @@
 
 #pragma once
 #include <stdexcept>
-
+#include "../TrafficLight.h"
 #include "TrafficLightState.h"
-namespace trafficlight {
-    class TrafficLight;
-}
+
 
 namespace trafficlight::state {
 class AbstractTrafficLightState : public TrafficLightState {
@@ -33,7 +31,13 @@ public:
             throw std::logic_error("Diese Funktion macht hier keinen Sinn.");
         }
 
+        void switchOff() override {
+            throw std::logic_error("Diese Funktion macht hier keinen Sinn.");
+        }
 
+        void switchOn() override {
+            throw std::logic_error("Diese Funktion macht hier keinen Sinn.");
+        }
 
 
 };

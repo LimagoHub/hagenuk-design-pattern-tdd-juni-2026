@@ -1,11 +1,7 @@
-cmake_minimum_required(VERSION 3.30)        # Mindest-CMake-Version
-project(Tag1_06TrafficLight)                # Projektname
+cmake_minimum_required(VERSION 3.30)
+project(Tag1_06TrafficLight)
 
-set(CMAKE_CXX_STANDARD 17)                  # C++17 aktivieren
+set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Tag1_06TrafficLight          # Ziel: ausführbare Datei
-        main.cpp                            # Einstiegspunkt
-        trafficlight/TrafficLight.cpp       # Implementierung — MUSS hier stehen!
-        trafficlight/state/TrafficLightState.h       # Header (optional, nur für IDE)
-        trafficlight/state/AbstractTrafficLightState.h
-)
+add_executable(Tag1_06TrafficLight
+        main.cpp trafficlight/state/TrafficLightState.h trafficlight/state/AbstractTrafficLightState.h trafficlight/TrafficLight.cpp)
