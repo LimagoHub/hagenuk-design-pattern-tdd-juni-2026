@@ -11,6 +11,7 @@
 
 #include "AddCommand.h"
 #include "PrintCommand.h"
+#include "ClearCommand.h"
 
 namespace command {
     using COMMAND = std::shared_ptr<Command>;
@@ -26,6 +27,10 @@ namespace command {
             }
             if(tokens[0] == "Print"){
                 result = std::make_shared<PrintCommand>();
+                result->parse(tokens);
+            }
+            if(tokens[0] == "Clear"){
+                result = std::make_shared<ClearCommand>();
                 result->parse(tokens);
             }
             return result;
