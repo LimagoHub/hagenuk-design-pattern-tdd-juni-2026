@@ -4,5 +4,6 @@ project(Template)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Template main.cpp
-        processor/AbstractFileProcessor.h
-        processor/CharacterCounter.h)
+        processor/FileProcessor.h
+        processor/CharacterCounter.h
+        processor/CharacterHandler.h)

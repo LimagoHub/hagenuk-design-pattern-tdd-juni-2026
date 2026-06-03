@@ -1,12 +1,21 @@
 #include <iostream>
 #include <memory>
 
-#include "processor/AbstractFileProcessor.h"
+#include "processor/FileProcessor.h"
 #include "processor/CharacterCounter.h"
 #include "processor/LineCounter.h"
 
 int main() {
-    std::shared_ptr<processor::AbstractFileProcessor> processor = std::make_shared<processor::LineCounter>();
+
+
+    processor::CharacterCounter character_counter;
+    processor::LineCounter line_counter;
+
+    std::shared_ptr<processor::FileProcessor> processor = std::make_shared<processor::FileProcessor>();
+
+    processor->addHandler(character_counter);
+    processor->addHandler(line_counter);
+
     processor->run("../data/blind.txt");
     return 0;
 }

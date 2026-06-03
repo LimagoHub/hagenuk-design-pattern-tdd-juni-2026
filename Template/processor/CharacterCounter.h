@@ -3,9 +3,10 @@
 //
 
 #pragma once
-#include "AbstractFileProcessor.h"
+#include "CharacterHandler.h"
+#include "FileProcessor.h"
 namespace processor {
-    class CharacterCounter: public AbstractFileProcessor {
+    class CharacterCounter: public CharacterHandler {
         int counter{0};
 
         void init() override {
