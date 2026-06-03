@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <stack>
 
 
 
@@ -37,133 +38,48 @@ namespace composite {
             using iterator_category = std::forward_iterator_tag;
             using difference_type = std::ptrdiff_t;
             using value_type = AbstractBankNode;
-            using pointer = AbstractNodeShared;  // or also value_type*
-            using reference = AbstractBankNode &;  // or also value_type&
+            using pointer = AbstractNodeShared;
+            using reference = AbstractBankNode &;
 
-            Iterator(pointer ptr = nullptr)
-                    : current_node(ptr) {
-                if (current_node == nullptr) {
-                    the_end();
-                }
+            Iterator() = default;
+
+            explicit Iterator(pointer root) {
+                if (root) stack_.push(root);
             }
 
-            reference operator*() { return *current_node; }
+            reference operator*() { return *stack_.top(); }
+            pointer operator->() { return stack_.top(); }
 
-            pointer operator->() { return current_node; }
-
-            // Prefix increment
             Iterator &operator++() {
-                if (!is_end()) {
-                    get_next_child();
-                }
+                pointer node = stack_.top();
+                stack_.pop();
+                const auto &children = node->getChildren();
+                for (auto it = children.rbegin(); it != children.rend(); ++it)
+                    stack_.push(*it);
                 return *this;
             }
 
-            // Postfix increment
             Iterator operator++(int) {
                 Iterator tmp = *this;
                 ++(*this);
                 return tmp;
             }
 
-            friend bool operator==(const Iterator &a, const Iterator &b) { return a.current_node == b.current_node; };
+            friend bool operator==(const Iterator &a, const Iterator &b) {
+                if (a.stack_.empty() && b.stack_.empty()) return true;
+                if (a.stack_.empty() || b.stack_.empty()) return false;
+                return a.stack_.top() == b.stack_.top();
+            }
 
-            friend bool operator!=(const Iterator &a, const Iterator &b) { return a.current_node != b.current_node; };
+            friend bool operator!=(const Iterator &a, const Iterator &b) { return !(a == b); }
 
         private:
-
-            [[nodiscard]]
-            auto is_end() const -> bool {
-                return (current_node == nullptr);
-            }
-
-            auto the_end() -> void {
-
-                depth = -1;
-                current_node = nullptr;
-            }
-
-            [[nodiscard]]
-            auto go_up_to(pointer ptr) -> bool {
-
-                current_node = ptr;
-                if (--depth <= 0) {
-                    the_end();
-                    return false;
-                }
-                return true;
-            }
-
-            auto go_down_to(pointer ptr) -> void {
-
-                current_node = ptr;
-                ++depth;
-            }
-
-            [[nodiscard]]
-            auto get_parent() -> bool {
-                parent_node = current_node->getParent().lock();
-                return (parent_node != nullptr);
-            }
-
-            [[nodiscard]]
-            auto get_first_child_of_parent() -> bool {
-                const auto &children = parent_node->getChildren();
-                if (!children.empty()) {
-                    go_down_to(children[0]);
-                    return true;
-                }
-                return false;
-            }
-
-            [[nodiscard]]
-            auto find_next_sibling() -> bool {
-                const auto &children = parent_node->getChildren();
-                bool found{false};
-                for (auto &child: children) {
-                    if (found) {
-                        current_node = child; // no depth change
-                        return true;
-                    }
-                    found = (child == current_node);
-                }
-                return false;
-            }
-
-            [[nodiscard]]
-            auto get_next_sibling() -> bool {
-                if (depth > 0) // stop at root node
-                {
-                    if (get_parent()) {
-                        if (find_next_sibling()) {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            }
-
-            auto get_next_child() -> void {
-                parent_node = current_node;
-                if (!get_first_child_of_parent()) {
-                    while (!get_next_sibling()) {
-                        if (!go_up_to(parent_node)) {
-                            the_end();
-                            break;
-                        }
-                    }
-                }
-            }
-
-        private:
-            int depth{0};
-            pointer current_node;
-            pointer parent_node;
+            std::stack<pointer> stack_;
         };
 
-        Iterator begin() { return Iterator(shared_from_this()); }
+        Iterator begin() { return Iterator{shared_from_this()}; }
 
-        Iterator end() { return Iterator(); }
+        Iterator end() { return Iterator{}; }
 
 
         const std::string &getName() const {
