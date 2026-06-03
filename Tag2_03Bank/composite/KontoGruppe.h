@@ -25,7 +25,9 @@ namespace composite {
             child->setParent(weak_from_this());
             children.push_back(child);
         }
-
+        void accept(Visitor &visitor) override {
+            visitor.visit(*this);
+        }
 
     private:
         Children children;

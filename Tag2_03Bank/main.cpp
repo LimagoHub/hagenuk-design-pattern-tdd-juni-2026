@@ -3,7 +3,7 @@
 #include <memory>
 #include "composite/KontoGruppe.h"
 #include "composite/Konto.h"
-
+#include "composite/visitor/PrintVisitor.h"
 
 using namespace composite;
 int main() {
@@ -31,10 +31,14 @@ int main() {
     e2->append(e2_1);
     e2->append(e2_2);
 
+    /*
+    for(auto & knoten: *root) {
+        std::cout << knoten << std::endl;
+    }
+*/
+    visitor::PrintVisitor printVisitor;
 
-    root->ausgabe();
-
-    for (auto &item: *root) {}
+    root->iterate(printVisitor);
 
     return 0;
 }

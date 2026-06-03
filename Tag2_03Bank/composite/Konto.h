@@ -23,7 +23,9 @@ namespace composite {
             Konto::saldo = saldo;
         }
 
-
+        void accept(Visitor &visitor) override {
+            visitor.visit(*this);
+        }
 
     private:
         double saldo{0};

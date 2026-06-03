@@ -11,6 +11,7 @@
 #include <iostream>
 #include <stack>
 
+#include "visitor/konto_visitor.h"
 
 
 namespace composite {
@@ -19,7 +20,7 @@ namespace composite {
         using AbstractNodeShared = std::shared_ptr<AbstractBankNode>;
         using AbstractNodeWeak = std::weak_ptr<AbstractBankNode>;
         using Children = std::vector<AbstractNodeShared>;
-
+        using Visitor = visitor::konto_visitor;
 
 
         explicit AbstractBankNode(const std::string &name = "undef") : name_(name) {}
@@ -76,10 +77,9 @@ namespace composite {
         private:
             std::stack<pointer> stack_;
         };
+        Iterator begin() { return Iterator(shared_from_this()); }
 
-        Iterator begin() { return Iterator{shared_from_this()}; }
-
-        Iterator end() { return Iterator{}; }
+        Iterator end() { return Iterator(); }
 
 
         const std::string &getName() const {
@@ -114,15 +114,27 @@ namespace composite {
         }
 
         virtual void ausgabe()  {
-            for (auto &item: *this) {
-                std::cout << item << std::endl;
+            /*std::cout << *this << std::endl;
+            for (auto &child: getChildren()) {
+                child->ausgabe();
+            }
+            */
+            for(auto & knoten: *this) {
+                std::cout << knoten << std::endl;
             }
 
         }
 
+        void iterate(Visitor &visitor) {
+            visitor.init();
+            for(auto &item: *this){
+                item.accept(visitor);
+            }
+            visitor.dispose();
+        }
 
-
-
+    protected:
+        virtual void accept(Visitor &visitor) = 0;
 
 
     private:
