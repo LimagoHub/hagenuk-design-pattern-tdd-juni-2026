@@ -38,3 +38,9 @@ TEST_F(StapelTest, push__OverFlow2__ThrowsStapelException) {
            ThrowsMessage<StapelException>(HasSubstr("Overflow")));
 
 }
+
+void StapelTest::fillUpToLimit() {
+    for (int i = 0; i < 10; i++) {
+        EXPECT_NO_THROW(objectUnderTest.push(i));
+    }
+}

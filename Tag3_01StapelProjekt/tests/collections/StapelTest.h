@@ -13,9 +13,5 @@ class StapelTest :public Test {
 protected:
     Stapel objectUnderTest;
 
-    void fillUpToLimit() {
-        for (int i = 0; i < 10; i++) {
-            EXPECT_NO_THROW(objectUnderTest.push(i));
-        }
-    }
+    void fillUpToLimit();
 };
