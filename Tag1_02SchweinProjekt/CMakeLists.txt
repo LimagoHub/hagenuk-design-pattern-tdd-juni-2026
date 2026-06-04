@@ -21,6 +21,7 @@ add_executable(
 		source/services/DemoDep.h
 		source/services/Multiplizierer.h
 		source/services/MultipliziererImpl.h
+		source/services/MultipliziererOptimierer.h
 )
 
 

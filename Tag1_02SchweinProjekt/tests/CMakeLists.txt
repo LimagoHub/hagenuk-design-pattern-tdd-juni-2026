@@ -20,7 +20,11 @@ set(SOURCE test.cpp
 		services/MockDependency.h
 		services/MyServiceUsingDepencyTest.cpp
 		services/MyServiceUsingDepencyTest.h
-		services/UniqueServiceTest.h)
+		services/UniqueServiceTest.h
+		services/MockMultiplizierer.h
+		services/MockMultiplizierer.h
+		services/MultipliziererOptimiererTest.cpp
+		services/MultipliziererOptimiererTest.h)
 
 # Create test executable
 add_executable(SchweinTest ${SOURCE} ${HEADER}  )

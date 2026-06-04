@@ -8,5 +8,5 @@
 class Multiplizierer {
 public:
     virtual ~Multiplizierer() = default;
-    virtual unsigned long mult(unsigned  a, unsigned  b)=0 ;
+    virtual unsigned long mult(unsigned  a, unsigned  b) const=0 ;
 };
