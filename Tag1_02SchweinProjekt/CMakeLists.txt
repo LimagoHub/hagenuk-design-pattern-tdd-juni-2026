@@ -14,6 +14,13 @@ add_executable(
 	SchweinProject 
 	source/main.cpp
         source/tiere/Schwein.h
+		source/collections/Stapel.h
+		source/services/Dependency.h
+		source/services/DependencyImpl.h
+		source/services/MyServiceUsingDependency.h
+		source/services/DemoDep.h
+		source/services/Multiplizierer.h
+		source/services/MultipliziererImpl.h
 )
 
 
