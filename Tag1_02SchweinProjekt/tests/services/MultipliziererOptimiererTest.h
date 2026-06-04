@@ -12,11 +12,12 @@
 using namespace testing;
 class MultipliziererOptimiererTest: public Test {
 protected:
-    std::shared_ptr<MockMultiplizierer> multipliziererMock;
+    MockMultiplizierer* multipliziererMock;
     std::unique_ptr<MultipliziererOptimierer> objectUnderTest;
 private:
     void SetUp() override {
-        multipliziererMock = std::make_shared<MockMultiplizierer>();
-        objectUnderTest = std::make_unique<MultipliziererOptimierer>(multipliziererMock);
+        auto mock = std::make_unique<MockMultiplizierer>();
+        multipliziererMock = mock.get();
+        objectUnderTest = std::make_unique<MultipliziererOptimierer>(std::move(mock));
     }
 };

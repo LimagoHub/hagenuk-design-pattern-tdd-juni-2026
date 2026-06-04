@@ -31,11 +31,22 @@ public:
          *
          */
     void speichern(person &person_) override {
-
+        try {
             if (person_.get_vorname().length() < 2)
                 throw personen_service_exception("Vorname zu kurz" );
+            if (person_.get_nachname().length() < 2)
+                throw personen_service_exception("Nachname zu kurz" );
 
-            throw personen_service_exception("Nachname zu kurz" );
+            if (person_.get_vorname()=="Attila")
+                throw personen_service_exception("Antipath" );
+
+            repo.save_or_update(person{"Max","Mustermann"});
+        } catch (personen_service_exception const &e) {
+            throw e;
+        }
+        catch (std::exception const &e) {
+            throw personen_service_exception("Fehler beim Speichern");
+        }
     }
 
 

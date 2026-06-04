@@ -3,7 +3,7 @@
 //
 
 #include "personen_service_impl_test.h"
-
+#include <stdexcept>
 #include "../../source/services/personen_service_exception.h"
 
 TEST_F(personen_service_impl_test, speichern__VornameTooShort__throwsPersonenServiceExection) {
@@ -21,3 +21,24 @@ TEST_F(personen_service_impl_test, speichern__NachnameTooShort__throwsPersonenSe
     EXPECT_THAT([&]() { this->objectUnderTest.speichern(inValidPerson); },
            ThrowsMessage<personen_service_exception>(StrEq("Nachname zu kurz")));
 }
+
+
+TEST_F(personen_service_impl_test, speichern__UnerwuenschtePerson__throwsPersonenServiceExection) {
+
+    person unerwuentePerson{"Attila","Der Hunne"};
+
+    EXPECT_THAT([&]() { this->objectUnderTest.speichern(unerwuentePerson); },
+           ThrowsMessage<personen_service_exception>(StrEq("Antipath")));
+}
+
+
+TEST_F(personen_service_impl_test, speichern__UnexpectedExceptionInUnderlyingService__throwsPersonenServiceExection) {
+
+    person validPerson{"John","Doe"};
+
+    EXPECT_CALL(repoMock, save_or_update(_)).WillOnce(Throw(std::runtime_error("Upps")));
+
+    EXPECT_THAT([&]() { this->objectUnderTest.speichern(validPerson); },
+           ThrowsMessage<personen_service_exception>(StrEq("Fehler beim Speichern")));
+}
+
