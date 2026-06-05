@@ -15,6 +15,14 @@ private:
 	euro_to_dollar_view* view_{ nullptr };
 	euro_to_dollar_calculator* model_{ nullptr };
 
+	[[nodiscard]] std::string specifiy_format(double dollar) const {
+		std::stringstream ss;
+
+		ss << std::fixed;
+		ss.precision(2);
+		ss << dollar;
+		return ss.str();
+	}
 
 public:
 	euro_to_dollar_presenter_impl() = default;
@@ -32,7 +40,9 @@ public:
 
 	void populate_items() const override // Maske initial befuellen
 	{
-
+		view_->set_euro("0");
+		view_->set_dollar("0");
+		view_->set_rechnen_enabled(true);
 	}
 
     //Euro string aus view lesen
@@ -45,6 +55,15 @@ public:
     */
 	void rechnen() const override // Vermiitler zwischen Maske und Service
 	{
+		try {
+			double euro = stod(view_->get_euro());
+			double dollar = model_->convert(euro);
+			view_->set_dollar(specifiy_format(dollar));
+		} catch (const std::invalid_argument e) {
+			view_->set_dollar("Keine Zahl");
+		} catch (std::runtime_error e) {
+			view_->set_dollar("Internal Server Error");
+		}
 
 
 	}

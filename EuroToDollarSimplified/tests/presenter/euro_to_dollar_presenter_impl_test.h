@@ -18,4 +18,5 @@ protected:
     euro_to_dollar_presenter_impl object_under_test{};
 
     void SetUp() override;
+
 };
