@@ -10,4 +10,5 @@
 class personen_service {
 public:
     virtual void speichern(person &person_) = 0;
+
 };

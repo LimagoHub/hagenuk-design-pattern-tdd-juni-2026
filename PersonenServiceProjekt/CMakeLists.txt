@@ -18,6 +18,7 @@ add_executable(
 		source/persistence/personen_repository.h
 		source/services/personen_service.h
 		source/services/personen_service_impl.h
+		source/services/BlacklistService.h
 
 )
 

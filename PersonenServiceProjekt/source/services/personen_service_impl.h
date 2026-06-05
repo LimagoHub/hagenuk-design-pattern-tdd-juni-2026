@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "BlacklistService.h"
 #include "personen_service.h"
 
 #include "../persistence/personen_repository.h"
@@ -10,15 +11,23 @@
 
 class personen_service_impl : public personen_service{
 
+
+
+private:
     personen_repository &repo;
+    BlacklistService &blacklistService;
 
 
 
 
 public:
-    explicit personen_service_impl(personen_repository &repo)
-        : repo(repo) {
+    personen_service_impl(personen_repository &repo, BlacklistService &blacklist_service)
+      : repo(repo),
+        blacklistService(blacklist_service) {
     }
+
+
+
     /*
          *	Vorname < 2 -> PSE
          *	Nachname < 2 -> PSE
@@ -32,15 +41,7 @@ public:
          */
     void speichern(person &person_) override {
         try {
-            if (person_.get_vorname().length() < 2)
-                throw personen_service_exception("Vorname zu kurz" );
-            if (person_.get_nachname().length() < 2)
-                throw personen_service_exception("Nachname zu kurz" );
-
-            if (person_.get_vorname()=="Attila")
-                throw personen_service_exception("Antipath" );
-
-            repo.save_or_update(person{"Max","Mustermann"});
+            speichernImpl(person_);
         } catch (personen_service_exception const &e) {
             throw e;
         }
@@ -49,5 +50,25 @@ public:
         }
     }
 
+private:
+    void validate_person(person &person_) {
+        if (person_.get_vorname().length() < 2)
+            throw personen_service_exception("Vorname zu kurz" );
+        if (person_.get_nachname().length() < 2)
+            throw personen_service_exception("Nachname zu kurz" );
+    }
 
+    void businessCheck(person &person_) {
+        if (blacklistService.isBlacklisted(person_))
+            throw personen_service_exception("Antipath" );
+    }
+
+    void speichernImpl(person &person_) {
+        validate_person(person_);
+
+        businessCheck(person_);
+
+        person_.set_id("random id");
+        repo.save_or_update(person_);
+    }
 };
