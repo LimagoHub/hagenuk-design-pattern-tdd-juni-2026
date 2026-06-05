@@ -9,7 +9,10 @@ void euro_to_dollar_presenter_impl_test::SetUp() {
     object_under_test.set_model(&euro_to_dollar_calculatorMock);
 }
 
-
+TEST_F(euro_to_dollar_presenter_impl_test, beenden__HappyDay__MaskClosed) {
+    EXPECT_CALL(euro_to_dollar_viewMock, dispose());
+    object_under_test.beenden();
+}
 
 
 

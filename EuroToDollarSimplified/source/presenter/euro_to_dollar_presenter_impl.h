@@ -16,15 +16,6 @@ private:
 	euro_to_dollar_calculator* model_{ nullptr };
 
 
-    [[nodiscard]] std::string specifiy_format(double dollar) const {
-        std::stringstream ss;
-
-        ss << std::fixed;
-        ss.precision(2);
-        ss << dollar;
-        return ss.str();
-    }
-
 public:
 	euro_to_dollar_presenter_impl() = default;
 
@@ -61,7 +52,7 @@ public:
 
     void beenden() const override
 	{
-       
+		view_->dispose();
 	}
 
     /*
