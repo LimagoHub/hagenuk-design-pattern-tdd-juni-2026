@@ -19,3 +19,14 @@ protected:
         ON_CALL(blacklistServiceMock, isBlacklisted(_)).WillByDefault(Return(false));
     }
 };
+
+class personen_service_impl_parameter_test : public personen_service_impl_test,
+    public WithParamInterface<std::pair<person, std::string>> {
+public:
+    personen_service_impl_parameter_test(): personen_service_impl_test() {
+
+    }
+
+
+
+};

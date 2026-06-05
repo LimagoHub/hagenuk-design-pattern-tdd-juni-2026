@@ -91,3 +91,25 @@ TEST_F(personen_service_impl_test,speichern__HappyPath3__parameterPassedToRepo){
 
 
 }
+TEST_P(personen_service_impl_parameter_test, speichern__throws_personen_service_exception) {
+
+    auto [invalidPerson, expectedErrorMessage] = GetParam();
+    // Arrange
+    EXPECT_CALL(blacklistServiceMock, isBlacklisted(_)).Times(0);
+   // Act + Assert
+    EXPECT_THAT([&]() { objectUnderTest.speichern(invalidPerson); },ThrowsMessage<personen_service_exception>(Eq(expectedErrorMessage)));
+
+}
+
+
+
+INSTANTIATE_TEST_SUITE_P(
+        speichern_invalid_names, // Name der Testa frei waehlbar
+        personen_service_impl_parameter_test, // Verbindung zur Testklasse
+        Values(
+                std::make_pair(person{"","Doe"},"Vorname zu kurz" ),
+                std::make_pair(person{"J","Doe"},"Vorname zu kurz" ),
+                std::make_pair(person{"John",""},"Nachname zu kurz" ),
+                std::make_pair(person{"John","D"},"Nachname zu kurz" )
+        )
+);
